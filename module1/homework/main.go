@@ -1,4 +1,4 @@
-package week01
+package main
 
 import (
 	"context"
@@ -71,4 +71,9 @@ func consumer(ch <-chan int) {
 		fmt.Println(num)
 	}
 	fmt.Println("consumer work finish")
+}
+
+func main() {
+	ChangeSlice()
+	//ProducerAndConsumer()
 }
