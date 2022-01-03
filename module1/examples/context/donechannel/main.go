@@ -8,12 +8,12 @@ import (
 func main() {
 	messages := make(chan int, 10)
 	done := make(chan bool)
-	defer close(messages)
 
-	//consumer
+	defer close(messages)
+	// consumer
 	go func() {
-		ticker := time.NewTicker(time.Second)
-		for range ticker.C {
+		ticker := time.NewTicker(1 * time.Second)
+		for _ = range ticker.C {
 			select {
 			case <-done:
 				fmt.Println("child process interrupt...")
@@ -24,13 +24,12 @@ func main() {
 		}
 	}()
 
-	//producer
+	// producer
 	for i := 0; i < 10; i++ {
 		messages <- i
 	}
-
 	time.Sleep(5 * time.Second)
 	close(done)
-	time.Sleep(time.Second)
+	time.Sleep(1 * time.Second)
 	fmt.Println("main process exit!")
 }

@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"geekbang_cloud_native/module2/homework/httpserver"
 	"sync"
 	"time"
 )
@@ -11,13 +12,6 @@ import (
 课后练习 2.1
 将练习 1.2 中的生产者消费者模型修改成为多个生产者和多个消费者模式
 */
-
-type queue struct {
-	q      chan int
-	finish chan int
-	wg     sync.WaitGroup
-	lock   sync.Mutex
-}
 
 func ProducerAndConsumer() {
 	q := make(chan int, 10)
@@ -38,9 +32,7 @@ func ProducerAndConsumer() {
 
 	pwg.Wait()
 	close(q)
-
 	cwg.Wait()
-
 }
 
 func producer(ctx context.Context, ch chan<- int, num *int, lock *sync.Mutex, wg *sync.WaitGroup) {
@@ -60,9 +52,10 @@ func producer(ctx context.Context, ch chan<- int, num *int, lock *sync.Mutex, wg
 	}
 }
 
-func consumer(ch <-chan int, wg *sync.WaitGroup) {
+func consumer(ch chan int, wg *sync.WaitGroup) {
 	defer wg.Done()
 	t := time.Tick(time.Second)
+
 	for num := range ch {
 		<-t
 		fmt.Println(num)
@@ -72,4 +65,5 @@ func consumer(ch <-chan int, wg *sync.WaitGroup) {
 
 func main() {
 	ProducerAndConsumer()
+	httpserver.ServerMain()
 }

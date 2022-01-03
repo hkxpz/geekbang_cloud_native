@@ -27,9 +27,8 @@ func rLock() {
 	lock := sync.RWMutex{}
 	for i := 0; i < 3; i++ {
 		lock.RLock()
-		//defer lock.RUnlock() //读锁不互斥, 不建议在 defer 中写解锁
+		defer lock.RUnlock() //读锁不互斥, 不建议在 defer 中写解锁
 		fmt.Println("rLock:", i)
-		lock.RUnlock()
 	}
 }
 

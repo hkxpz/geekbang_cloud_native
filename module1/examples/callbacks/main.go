@@ -1,14 +1,14 @@
 package main
 
-import "fmt"
-
 func main() {
+	var a *int
+	*a += 1
+	// DoOperation(1, increase)
 	DoOperation(1, decrease)
-	DoOperation(1, increase)
 }
 
-func increase(a, b int) {
-	fmt.Println("increase result is:", a+b)
+func increase(a, b int) int {
+	return a + b
 }
 
 func DoOperation(y int, f func(int, int)) {
@@ -16,5 +16,5 @@ func DoOperation(y int, f func(int, int)) {
 }
 
 func decrease(a, b int) {
-	fmt.Println("decrease result is:", a-b)
+	println("decrease result is:", a-b)
 }

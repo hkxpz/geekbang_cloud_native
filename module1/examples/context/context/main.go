@@ -9,16 +9,14 @@ import (
 func main() {
 	baseCtx := context.Background()
 	ctx := context.WithValue(baseCtx, "a", "b")
-
-	go func(ctx context.Context) {
-		fmt.Println(ctx.Value("a"))
+	go func(c context.Context) {
+		fmt.Println(c.Value("a"))
 	}(ctx)
-
-	timeOutCtx, cancel := context.WithTimeout(baseCtx, time.Second)
+	timeoutCtx, cancel := context.WithTimeout(baseCtx, time.Second)
 	defer cancel()
 	go func(ctx context.Context) {
-		ticker := time.NewTicker(time.Second)
-		for range ticker.C {
+		ticker := time.NewTicker(1 * time.Second)
+		for _ = range ticker.C {
 			select {
 			case <-ctx.Done():
 				fmt.Println("child process interrupt...")
@@ -27,11 +25,11 @@ func main() {
 				fmt.Println("enter default")
 			}
 		}
-	}(timeOutCtx)
-
+	}(timeoutCtx)
 	select {
-	case <-timeOutCtx.Done():
-		time.Sleep(time.Second * 2)
+	case <-timeoutCtx.Done():
+		time.Sleep(1 * time.Second)
 		fmt.Println("main process exit!")
 	}
+	// time.Sleep(time.Second * 5)
 }

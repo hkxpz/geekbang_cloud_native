@@ -3,13 +3,14 @@ package main
 import "fmt"
 
 func main() {
-	for i := 0; i < 3; i++ {
-		fmt.Println(i)
+	f := func(x, y int) {
+		fmt.Println(x + y)
 	}
+	f(1, 2)
+	a(1, f)
 
-	fullString := "hello world"
-	fmt.Println(fullString)
-	for i, c := range fullString {
-		fmt.Println(i, string(c))
-	}
+}
+
+func a(x int, f func(x, y int)) {
+	f(x, 6)
 }
