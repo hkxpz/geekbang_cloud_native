@@ -6,7 +6,7 @@ ENV GO111MODULE=ON \
     GOARCH=amd64
 
 WORKDIR /build
-COPY . .
+COPY homework .
 RUN go build -o httpserver .
 
 FROM scratch
